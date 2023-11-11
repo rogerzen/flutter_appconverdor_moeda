@@ -3,14 +3,16 @@ import 'package:flutter_appconverdor_moeda/app/models/currency_model.dart';
 
 class CurrencyBox extends StatelessWidget {
   final List<CurrencyModel> items;
+  final CurrencyModel selectedItem;
   final TextEditingController controller;
   final void Function(CurrencyModel? model)? onChanged;
 
   const CurrencyBox(
-      {required Key key,
+      {required Key? key,
       required this.items,
       required this.controller,
-      this.onChanged})
+      this.onChanged,
+      required this.selectedItem})
       : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class CurrencyBox extends StatelessWidget {
               height: 57,
               child: DropdownButton<CurrencyModel>(
                   isExpanded: true,
+                  value: selectedItem,
                   underline: Container(
                     height: 1,
                     color: Colors.amber,
@@ -34,16 +37,17 @@ class CurrencyBox extends StatelessWidget {
                             child: Text(item.name),
                           ))
                       .toList(),
-                  onChanged: (value) {}),
+                  onChanged: onChanged),
             )),
         const SizedBox(
           width: 10,
         ),
-        const Expanded(
+        Expanded(
           flex: 2,
           child: TextField(
+            keyboardType: TextInputType.number,
             controller: controller,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.amber)),
                 focusedBorder: UnderlineInputBorder(
